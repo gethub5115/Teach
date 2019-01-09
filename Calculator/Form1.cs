@@ -21,6 +21,14 @@ namespace Calculator
             m_stack_formula = new Stack<IItem>();
         }
 
+        private IEnumerable<IItem> PopAllItems()
+        {
+            while(m_stack_formula.Count > 0)
+            {
+                yield return m_stack_formula.Pop();
+            }
+        }
+
         private void m_btn_equal_Click(object sender, EventArgs e)
         {
             retry:
@@ -32,7 +40,7 @@ namespace Calculator
 
                 IOperation currentOperation = null;
 
-                foreach(var currentItem in m_stack_formula)
+                foreach(var currentItem in PopAllItems())
                 {
                     if(currentItem is IOperation)
                     {
@@ -126,6 +134,23 @@ namespace Calculator
         {
             // Cast text box
             var textbox = (TextBox)(sender);
+
+            if(textbox.Text.IndexOf("+") > 0)
+            {
+                textbox.Text = textbox.Text.Substring(0, textbox.Text.Length - 1);
+                m_btn_plus_Click(null, null);
+            }
+            else if (textbox.Text.IndexOf("=") > 0)
+            {
+                textbox.Text = textbox.Text.Substring(0, textbox.Text.Length - 1);
+                m_btn_equal_Click(null, null);
+            }
+            else if (textbox.Text.IndexOf("-") > 0)
+            {
+                textbox.Text = textbox.Text.Substring(0, textbox.Text.Length - 1);
+                m_btn_minus_Click(null, null);
+            }
+
             // delcare integer
             int i;
             // Check to see if the value in the text box is an integer
@@ -138,7 +163,7 @@ namespace Calculator
             }
             else
             {
-                textbox.BackColor = Color.DarkRed;
+                textbox.BackColor = Color.Red;
                 textbox.ForeColor = Color.White;
             }
         }
@@ -191,6 +216,16 @@ namespace Calculator
         private void m_btn_zero_Click(object sender, EventArgs e)
         {
             m_txt_Value.Text += "0";
+        }
+
+        private void m_txt_Value_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch(e.KeyCode)
+            {
+                case Keys.Enter:
+                    m_btn_equal_Click(null, null);
+                    return;
+            }
         }
     }
 
