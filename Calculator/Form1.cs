@@ -158,13 +158,13 @@ namespace Calculator
 
             if (isAnInteger || string.IsNullOrEmpty(textbox.Text))
             {
-                textbox.BackColor = Color.White;
+                textbox.BackColor = Color.FloralWhite;
                 textbox.ForeColor = Color.Black;
             }
             else
             {
-                textbox.BackColor = Color.Red;
-                textbox.ForeColor = Color.White;
+                textbox.BackColor = Color.BlanchedAlmond;
+                textbox.ForeColor = Color.Black;
             }
         }
 
@@ -220,12 +220,17 @@ namespace Calculator
 
         private void m_txt_Value_KeyUp(object sender, KeyEventArgs e)
         {
-            switch(e.KeyCode)
+            switch (e.KeyCode)
             {
                 case Keys.Enter:
                     m_btn_equal_Click(null, null);
                     return;
+
+                           
+          
             }
+
+        }
         }
     }
 
